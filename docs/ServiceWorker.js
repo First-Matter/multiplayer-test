@@ -1,4 +1,4 @@
-const cacheName = "cruxial-x-redesigned-octo-memory-0.0.51";
+const cacheName = "cruxial-x-redesigned-octo-memory-0.0.52";
 const contentToCache = [
     "Build/docs.loader.js",
     "Build/docs.framework.js",
