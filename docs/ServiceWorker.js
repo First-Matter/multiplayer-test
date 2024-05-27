@@ -1,4 +1,4 @@
-const cacheName = "cruxial-x-redesigned-octo-memory-0.0.55";
+const cacheName = "cruxial-x-redesigned-octo-memory-0.0.56";
 const contentToCache = [
     "Build/docs.loader.js",
     "Build/docs.framework.js",
@@ -13,16 +13,9 @@ self.addEventListener('install', function (e) {
    self.skipWaiting();
     
     e.waitUntil((async function () {
-         const cacheWhitelist = ['game-cache-default']; // Update cache version
-         const cacheNames = await caches.keys();
-         await Promise.all(
-             cacheNames.map(cacheName => {
-                 if (!cacheWhitelist.includes(cacheName)) {
-                     return caches.delete(cacheName);
-                 }
-             })
-         );
-   
+     for (let name of (await caches.keys()))
+       caches.delete(name);
+
       const cache = await caches.open(cacheName);
       console.log('[Service Worker] Caching all: app shell and content');
       await cache.addAll(contentToCache);
