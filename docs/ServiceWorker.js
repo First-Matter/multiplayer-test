@@ -1,4 +1,4 @@
-const cacheName = "cruxial-x-redesigned-octo-memory-0.0.48";
+const cacheName = "cruxial-x-redesigned-octo-memory-0.0.51";
 const contentToCache = [
     "Build/docs.loader.js",
     "Build/docs.framework.js",
@@ -10,8 +10,12 @@ const contentToCache = [
 
 self.addEventListener('install', function (e) {
     console.log('[Service Worker] Install');
+   self.skipWaiting();
     
     e.waitUntil((async function () {
+     for (let name of (await caches.keys()))
+       caches.delete(name);
+
       const cache = await caches.open(cacheName);
       console.log('[Service Worker] Caching all: app shell and content');
       await cache.addAll(contentToCache);
@@ -19,6 +23,8 @@ self.addEventListener('install', function (e) {
 });
 
 self.addEventListener('fetch', function (e) {
+   if (e.request.url.endsWith('/ServiceWorker.js')) { return }
+
     e.respondWith((async function () {
       let response = await caches.match(e.request);
       console.log(`[Service Worker] Fetching resource: ${e.request.url}`);

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | redesigned-octo-memory</title>
+    <title>redesigned-octo-memory</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
@@ -22,7 +22,18 @@
     <script>
       window.addEventListener("load", function () {
         if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("ServiceWorker.js");
+          navigator.serviceWorker.register('ServiceWorker.js').then(reg => {
+           reg.onupdatefound = () => {
+             const installingWorker = reg.installing;
+             installingWorker.onstatechange = () => {
+               if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                 if (confirm('An update is available, do you want to reload?')) {
+                   location.reload();
+                 }
+               }
+             };
+           };
+         });
         }
       });
 
@@ -65,7 +76,7 @@
         streamingAssetsUrl: "StreamingAssets",
         companyName: "cruxial-x",
         productName: "redesigned-octo-memory",
-        productVersion: "0.0.48",
+        productVersion: "0.0.51",
         showBanner: unityShowBanner,
       };
 
