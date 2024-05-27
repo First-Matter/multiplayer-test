@@ -1,4 +1,4 @@
-const cacheName = "cruxial-x-redesigned-octo-memory-0.0.52";
+const cacheName = "cruxial-x-redesigned-octo-memory-0.0.54";
 const contentToCache = [
     "Build/docs.loader.js",
     "Build/docs.framework.js",
@@ -24,6 +24,7 @@ self.addEventListener('install', function (e) {
 
 self.addEventListener('fetch', function (e) {
    if (e.request.url.endsWith('/ServiceWorker.js')) { return }
+   if (e.request.method === 'POST') { return } // Don't cache POST requests
 
     e.respondWith((async function () {
       let response = await caches.match(e.request);
